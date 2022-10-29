@@ -10,17 +10,18 @@ import java.awt.event.KeyEvent;
 
 public class Sprite {
 
-    private int width; 
-    private int height; 
+    public int width; 
+    public int height; 
     public int x = (int) (Math.random() * 100); 
     public int y = (int) (Math.random() * 100); 
-    private int dx; 
-    private int dy; 
+    public int dx; 
+    public int dy; 
     private Image img;
 
     public Sprite() { 
         // spriteAppearance(imgr); 
         spriteAppearance();
+        System.out.println(Integer.toString(x));
         // this.addKeyListener(this); 
     }
 
@@ -101,22 +102,21 @@ public class Sprite {
         int move = e.getKeyCode(); 
 
         if (move == KeyEvent.VK_LEFT) {
-            // dx = -5; 
-            x = -5;
+            dx = -5;
         }
 
         if (move == KeyEvent.VK_RIGHT) {
             System.out.println("Right press");
-            x = 20; 
-            System.out.println("X" + " " + x.toString());
+            dx = 20; 
+            System.out.println("X" + " " + Integer.toString(x));
         }
 
         if (move == KeyEvent.VK_UP) {
-            y = 5; 
+            dy = 5; 
         }
 
         if (move == KeyEvent.VK_DOWN) {
-            y = -5; 
+            dy = -5; 
         }
 
     }

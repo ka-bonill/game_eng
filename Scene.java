@@ -1,6 +1,9 @@
 import java.awt.*; 
 import javax.swing.*; 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.*; 
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter; 
@@ -22,13 +25,14 @@ public class Scene extends JPanel implements ActionListener {
                 System.out.println(mouseX + " " + mouseY);
             }
         }); 
-
-        addKeyListener(new listenHandler()); 
     }
 
-    public void sceneStart() {
+    private void sceneStart() {
+    
+        this.addKeyListener(new listenHandler()); 
+
         c = new Sprite();
-        addKeyListener(new listenHandler()); 
+
         setBackground(Color.black);
         setFocusable(true); 
         
@@ -37,18 +41,34 @@ public class Scene extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        doDrawing(g);
+        createElement(g);
         
         Toolkit.getDefaultToolkit().sync();
     }
     
-    private void doDrawing(Graphics g) {
+    private void createElement(Graphics g) {
         
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.drawImage(c.getImage(), c.xCoord(), 
             c.yCoord(), this);
     }
+
+    @Override 
+    public void actionPerformed(ActionEvent e) {
+        System.out.println("This is x" + c.x); 
+        advance();
+      
+    }
+
+    private void advance() {
+        c.posMod();
+        
+        repaint(c.xCoord()-1, c.yCoord()-1, 
+        c.width, c.height); 
+        
+    }
+
 
     private class listenHandler extends KeyAdapter {
         @Override
@@ -62,15 +82,6 @@ public class Scene extends JPanel implements ActionListener {
         }
     }
     
-
-    @Override 
-    public void actionPerformed(ActionEvent e) {
-        advance(); 
-    }
-
-    private void advance() {
-        c.posMod();
-    }
 
 
 
