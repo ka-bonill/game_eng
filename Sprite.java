@@ -17,18 +17,18 @@ public class Sprite {
     public int dx; 
     public int dy; 
     private Image img;
+    public boolean outOfBounds = false; 
 
     public Sprite() { 
-        // spriteAppearance(imgr); 
-        spriteAppearance();
         System.out.println(Integer.toString(x));
-        // this.addKeyListener(this); 
+
     }
 
     //placing sprite image
 
-    private void spriteAppearance() {
-        ImageIcon sprite = new ImageIcon("Images/left_car.png"); 
+    protected void spriteAppearance(String imageName) {
+        // ImageIcon sprite = new ImageIcon("Images/left_car.png"); 
+        ImageIcon sprite = new ImageIcon(imageName); 
         img = sprite.getImage(); 
 
         width = img.getWidth(null); 
@@ -46,63 +46,11 @@ public class Sprite {
         y += dy; 
     }
 
-//     private class moveCar implements KeyListener {
-        
-//         @Override
-//         public void keyPressed(KeyEvent e) {
-//             int move = e.getKeyCode(); 
-
-//             if (move == KeyEvent.VK_LEFT) {
-//                 // dx = -5; 
-//                 x = -5;
-//             }
-
-//             if (move == KeyEvent.VK_RIGHT) {
-//                 dx = 5; 
-//             }
-
-//             if (move == KeyEvent.VK_UP) {
-//                 dy = 5; 
-//             }
-
-//             if (move == KeyEvent.VK_DOWN) {
-//                 dy = -5; 
-//             }
-
-//         }
-
-//         @Override
-//         public void keyReleased(KeyEvent e) {
-//             int move = e.getKeyCode(); 
-
-//             if (move == KeyEvent.VK_LEFT) {
-//                 dx = 0; 
-//             }
-
-//             if (move == KeyEvent.VK_RIGHT) {
-//                 dx = 0; 
-//             }
-
-//             if (move == KeyEvent.VK_UP) {
-//                 dy = 0; 
-//             }
-
-//             if (move == KeyEvent.VK_DOWN) {
-//                 dy = 0; 
-//             }
-
-//         }
-
-//         @Override
-//         public void keyTyped(KeyEvent e) {
-
-//         }
-// }
     public void keyPressed(KeyEvent e) {
         int move = e.getKeyCode(); 
 
         if (move == KeyEvent.VK_LEFT) {
-            dx = -5;
+            dx = -20;
         }
 
         if (move == KeyEvent.VK_RIGHT) {
@@ -129,6 +77,7 @@ public class Sprite {
         }
 
         if (move == KeyEvent.VK_RIGHT) {
+            System.out.println("Right released");
             dx = 0; 
         }
 
@@ -142,32 +91,43 @@ public class Sprite {
 
     }
 
-
     public void keyTyped(KeyEvent e) {
 
     }
 
+    public boolean boundaryCheck() {
+        if (x > 1000) {
+            x = 0; 
+            outOfBounds = true; 
+        }
+        else if (x < 0) {
+            x = 1000; 
+            outOfBounds = true; 
+        }
+        else if (y > 1000) {
+            y = 0; 
+            outOfBounds = true; 
+        }
+        else if (y < 0) {
+            y = 1000; 
+            outOfBounds = true; 
+        }
+        else {
+            outOfBounds = false; 
+        }
 
-    public void boundaryCheck() {
-        // switch 
+        return outOfBounds; 
     }
  
-    public void collisionCheck() {
-        
-    }
+    // public void collisionCheck() {
+    //     for 
+    // }   
 
     //on collision of bugs, car crash sound provided
     public void crash() {
 
     }
 
-    public void show() {
-
-    }
-
-    public void hide() {
-
-    }
 
     public int xCoord() {
         return x; 

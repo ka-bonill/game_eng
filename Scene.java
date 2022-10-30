@@ -1,30 +1,34 @@
-import java.awt.*; 
-import javax.swing.*; 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.*; 
-import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyAdapter; 
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 
 public class Scene extends JPanel implements ActionListener {
 
     public Sprite c; 
+    public Sprite c2; 
+    private final int pause = 10;
+    private Timer clock; 
 
     public Scene() {
         
         sceneStart(); 
 
-        addMouseListener(new MouseAdapter(){
-            public void mouseClicked(MouseEvent e) {
-                int mouseX = e.getX(); 
-                int mouseY = e.getY(); 
+        // addMouseListener(new MouseAdapter(){
+        //     public void mouseClicked(MouseEvent e) {
+        //         int mouseX = e.getX(); 
+        //         int mouseY = e.getY(); 
         
-                System.out.println(mouseX + " " + mouseY);
-            }
-        }); 
+        //         System.out.println(mouseX + " " + mouseY);
+        //     }
+        // }); 
     }
 
     private void sceneStart() {
@@ -32,6 +36,13 @@ public class Scene extends JPanel implements ActionListener {
         this.addKeyListener(new listenHandler()); 
 
         c = new Sprite();
+        c.spriteAppearance("Images/left_car.png");
+
+        c2 = new Sprite(); 
+        c2.spriteAppearance("Images/right_car.png"); 
+
+        clock = new Timer(pause, this);
+        clock.start();
 
         setBackground(Color.black);
         setFocusable(true); 
@@ -39,6 +50,7 @@ public class Scene extends JPanel implements ActionListener {
     }
 
     public void paintComponent(Graphics g) {
+
         super.paintComponent(g);
 
         createElement(g);
@@ -47,11 +59,14 @@ public class Scene extends JPanel implements ActionListener {
     }
     
     private void createElement(Graphics g) {
-        
+
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.drawImage(c.getImage(), c.xCoord(), 
             c.yCoord(), this);
+
+        g2d.drawImage(c2.getImage(), c2.xCoord(), 
+            c2.yCoord(), this);
     }
 
     @Override 
@@ -63,12 +78,22 @@ public class Scene extends JPanel implements ActionListener {
 
     private void advance() {
         c.posMod();
+
+        c.boundaryCheck();
+
+        if (c.boundaryCheck() == true) {
+            
+            setBackground(Color.black);  
+        } 
         
-        repaint(c.xCoord()-1, c.yCoord()-1, 
+        repaint(c.xCoord(), c.yCoord(), 
         c.width, c.height); 
         
     }
 
+    public void collisionCheck() {
+        
+    }   
 
     private class listenHandler extends KeyAdapter {
         @Override
@@ -80,37 +105,6 @@ public class Scene extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
             c.keyPressed(e);
         }
-    }
-    
-
-
-
- //   public void paint(Graphics g) {
-//
-  //      super.paintComponent(g); 
-    //    doDrawing(g);
-
-  //      Graphics2D g2D = (Graphics2D) g; 
-//
-    //    g2D.drawImage(c.getImage(), c.xCoord(), c.yCoord(), this); 
-
-        
-    //}
-
-    static void begin() {
-        // on mouse down move object
-    }
-    
-    static void end() {
-        System.out.println("End"); 
-    }
-
-    static void pause() {
-        System.out.println("Pause"); 
-    }
-
-    public void remove() {
-        // frame.getContentPane().removeAll(); 
     }
 
 
