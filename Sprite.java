@@ -118,10 +118,6 @@ public class Sprite {
 
         return outOfBounds; 
     }
- 
-    // public void collisionCheck() {
-    //     for 
-    // }   
 
     //on collision of bugs, car crash sound provided
     public void crash() {

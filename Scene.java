@@ -20,15 +20,6 @@ public class Scene extends JPanel implements ActionListener {
     public Scene() {
         
         sceneStart(); 
-
-        // addMouseListener(new MouseAdapter(){
-        //     public void mouseClicked(MouseEvent e) {
-        //         int mouseX = e.getX(); 
-        //         int mouseY = e.getY(); 
-        
-        //         System.out.println(mouseX + " " + mouseY);
-        //     }
-        // }); 
     }
 
     private void sceneStart() {
@@ -54,6 +45,8 @@ public class Scene extends JPanel implements ActionListener {
         super.paintComponent(g);
 
         createElement(g);
+
+        g.dispose();
         
         Toolkit.getDefaultToolkit().sync();
     }
@@ -92,7 +85,12 @@ public class Scene extends JPanel implements ActionListener {
     }
 
     public void collisionCheck() {
-        
+        if ((c.x == c2.x) || (c.y == c2.y)) {
+            c2.setVisible(false); 
+        }
+        else {
+            continue; 
+        }
     }   
 
     private class listenHandler extends KeyAdapter {
